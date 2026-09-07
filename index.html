@@ -56,16 +56,592 @@ const topics=[
 ['Ich habe drei besetzte Schalen und zwei Außenelektronen. Mein Kern enthält 12 Neutronen. Welches Atom bin ich?',['Magnesium-24 (Mg)','Natrium-23 (Na)','Aluminium-27 (Al)'],0,'Die Verteilung 2 | 8 | 2 ergibt zwölf Elektronen und beim neutralen Atom zwölf Protonen: Magnesium. Mit zwölf Neutronen beträgt die Massenzahl 24.']
 ]}
 ];
+// Je Kategorie und Punktwert: Originalfrage plus zwei weitere Varianten.
+const extraQuestions = [
+  [
+    [
+      [
+        "Welche Teilchen befinden sich in der Atomhülle?",
+        [
+          "Elektronen",
+          "Protonen",
+          "Neutronen"
+        ],
+        0,
+        "Elektronen bilden die Hülle; Protonen und Neutronen befinden sich im Kern."
+      ],
+      [
+        "Welches Atommodell wird als Rosinenkuchenmodell bezeichnet?",
+        [
+          "Bohrs Modell",
+          "Thomsons Modell",
+          "Daltons Modell"
+        ],
+        1,
+        "Thomson stellte sich Elektronen in einer positiv geladenen Masse vor."
+      ]
+    ],
+    [
+      [
+        "Welche Entdeckung widersprach der Vorstellung vom unteilbaren Atom?",
+        [
+          "Die Entdeckung von Eis",
+          "Die Messung der Lufttemperatur",
+          "Die Entdeckung des Elektrons"
+        ],
+        2,
+        "Elektronen sind Bestandteile des Atoms. Atome sind daher nicht unteilbar."
+      ],
+      [
+        "Was ergänzte Bohrs Modell gegenüber dem Kern-Hülle-Modell?",
+        [
+          "Bestimmte Energieniveaus für Elektronen",
+          "Einen negativ geladenen Kern",
+          "Protonen in der Hülle"
+        ],
+        0,
+        "Im Bohrschen Modell können Elektronen nur bestimmte Energieniveaus einnehmen."
+      ]
+    ],
+    [
+      [
+        "Welche Beobachtung konnte Thomsons Modell nicht erklären?",
+        [
+          "Die elektrische Neutralität eines Atoms",
+          "Die starke Rückstreuung einzelner Alphateilchen",
+          "Die Existenz negativer Elektronen"
+        ],
+        1,
+        "Für die starke Rückstreuung braucht man eine kleine, konzentrierte positive Ladung: den Kern."
+      ],
+      [
+        "Welche Aussage passt zu Dalton, aber nicht zum heutigen Atommodell?",
+        [
+          "Stoffe bestehen aus Teilchen",
+          "Bei chemischen Reaktionen werden Atome neu angeordnet",
+          "Atome lassen sich nicht in kleinere Bestandteile zerlegen"
+        ],
+        2,
+        "Heute kennen wir Elektronen, Protonen und Neutronen als Bestandteile von Atomen."
+      ]
+    ],
+    [
+      [
+        "Warum wurde das Atommodell mehrfach verändert?",
+        [
+          "Neue Experimente zeigten Grenzen der bisherigen Modelle",
+          "Jedes ältere Modell war völlig nutzlos",
+          "Atome änderten im Laufe der Zeit ihren Aufbau"
+        ],
+        0,
+        "Modelle werden anhand von Beobachtungen geprüft und bei Bedarf weiterentwickelt."
+      ],
+      [
+        "Welche Zuordnung ist vollständig richtig?",
+        [
+          "Dalton: Kern · Rutherford: Schalen · Bohr: Rosinenkuchen",
+          "Dalton: Kugel · Rutherford: Kern und Hülle · Bohr: Energieniveaus",
+          "Dalton: Schalen · Rutherford: Rosinenkuchen · Bohr: Kugel"
+        ],
+        1,
+        "Dalton beschrieb Kugeln, Rutherford den kleinen Kern und Bohr bestimmte Energieniveaus der Elektronen."
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        "Welche elektrische Ladung haben Alphateilchen?",
+        [
+          "Negativ",
+          "Keine",
+          "Positiv"
+        ],
+        2,
+        "Alphateilchen sind Heliumkerne mit zwei Protonen und deshalb positiv geladen."
+      ],
+      [
+        "Welches Material verwendete Rutherford als dünne Folie?",
+        [
+          "Gold",
+          "Kunststoff",
+          "Papier"
+        ],
+        0,
+        "Im bekannten Streuversuch wurden Alphateilchen auf eine sehr dünne Goldfolie gerichtet."
+      ]
+    ],
+    [
+      [
+        "Wie verhielten sich nur sehr wenige Alphateilchen?",
+        [
+          "Sie wurden alle von der Folie aufgenommen",
+          "Sie wurden stark abgelenkt oder zurückgestreut",
+          "Sie verwandelten sich in Elektronen"
+        ],
+        1,
+        "Nur wenige Alphateilchen kamen dem kleinen Kern so nahe, dass sie stark abgelenkt wurden."
+      ],
+      [
+        "Wozu diente der Leuchtschirm im Streuversuch?",
+        [
+          "Er erzeugte die Goldfolie",
+          "Er lud die Elektronen positiv auf",
+          "Er machte auftreffende Alphateilchen nachweisbar"
+        ],
+        2,
+        "Beim Auftreffen entstehen Lichtblitze. So lässt sich erkennen, wohin die Alphateilchen gestreut werden."
+      ]
+    ],
+    [
+      [
+        "Warum ist der Atomkern nach dem Streuversuch sehr klein?",
+        [
+          "Nur ein sehr kleiner Anteil der Alphateilchen wurde stark abgelenkt",
+          "Alle Alphateilchen wurden zurückgeworfen",
+          "Der Kern enthält keine Masse"
+        ],
+        0,
+        "Die seltenen starken Ablenkungen zeigen, dass die positive Ladung nur einen sehr kleinen Raum einnimmt."
+      ],
+      [
+        "Warum stößt ein Atomkern Alphateilchen ab?",
+        [
+          "Der Kern ist elektrisch neutral",
+          "Beide sind positiv geladen",
+          "Beide sind negativ geladen"
+        ],
+        1,
+        "Gleichnamige elektrische Ladungen stoßen einander ab."
+      ]
+    ],
+    [
+      [
+        "Was wäre bei einer großen, massiven positiven Kugel eher zu erwarten als beobachtet?",
+        [
+          "Fast alle Teilchen würden ungehindert passieren",
+          "Keine Wechselwirkung mit Alphateilchen",
+          "Deutlich mehr starke Ablenkungen"
+        ],
+        2,
+        "Eine große massive positive Kugel würde viele Flugbahnen stark beeinflussen. Beobachtet wurden nur wenige starke Ablenkungen."
+      ],
+      [
+        "Welche Kombination aus Beobachtung und Schluss ist richtig?",
+        [
+          "Seltene Rückstreuung → Masse und positive Ladung sind im kleinen Kern konzentriert",
+          "Häufiger Durchgang → Atome haben keinen Kern",
+          "Seltene Rückstreuung → Elektronen sind schwerer als Kerne"
+        ],
+        0,
+        "Der kleine, massereiche, positiv geladene Kern erklärt die seltenen starken Ablenkungen."
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        "Wie heißt die innerste Elektronenschale?",
+        [
+          "M-Schale",
+          "K-Schale",
+          "L-Schale"
+        ],
+        1,
+        "Von innen nach außen heißen die ersten Schalen K, L und M."
+      ],
+      [
+        "Welche Ladung trägt ein Elektron?",
+        [
+          "Positiv",
+          "Keine",
+          "Negativ"
+        ],
+        2,
+        "Elektronen sind negativ geladen; Protonen tragen eine positive Ladung."
+      ]
+    ],
+    [
+      [
+        "Wie viele Elektronen besitzt ein neutrales Atom mit sieben Protonen?",
+        [
+          "7",
+          "14",
+          "0"
+        ],
+        0,
+        "In einem neutralen Atom gleichen sich die Ladungen aus: Elektronenzahl und Protonenzahl sind gleich."
+      ],
+      [
+        "Wie viele Außenelektronen hat ein Atom mit der Verteilung 2 | 8 | 3?",
+        [
+          "13",
+          "3",
+          "8"
+        ],
+        1,
+        "Die letzte Zahl gibt die Elektronenzahl auf der äußersten besetzten Schale an."
+      ]
+    ],
+    [
+      [
+        "Welche Verteilung gehört zu einem neutralen Fluoratom mit neun Elektronen?",
+        [
+          "7 | 2",
+          "2 | 8",
+          "2 | 7"
+        ],
+        2,
+        "Die K-Schale wird mit zwei Elektronen besetzt, die übrigen sieben befinden sich auf der L-Schale."
+      ],
+      [
+        "Wie verteilen sich die zwölf Elektronen eines neutralen Magnesiumatoms?",
+        [
+          "2 | 8 | 2",
+          "2 | 10",
+          "4 | 4 | 4"
+        ],
+        0,
+        "Im vereinfachten Schalenmodell hat Magnesium zwei Elektronen innen, acht auf der zweiten und zwei auf der dritten Schale."
+      ]
+    ],
+    [
+      [
+        "Ein Chloratom nimmt ein Elektron auf. Welche Ladung hat das entstehende Ion?",
+        [
+          "Es bleibt neutral",
+          "Einfach negativ",
+          "Einfach positiv"
+        ],
+        1,
+        "Nach der Aufnahme gibt es ein Elektron mehr als Protonen: Es entsteht Cl⁻."
+      ],
+      [
+        "Ein Magnesiumatom gibt zwei Elektronen ab. Was verändert sich?",
+        [
+          "Es wird zweifach negativ; die Protonenzahl steigt",
+          "Es wird zu Neon, weil sich der Kern ändert",
+          "Es wird zweifach positiv; die Protonenzahl bleibt gleich"
+        ],
+        2,
+        "Durch Elektronenabgabe entsteht Mg²⁺. Der Kern und damit die Identität des Elements bleiben erhalten."
+      ]
+    ]
+  ],
+  [
+    [
+      {
+        "draw": true,
+        "element": "Wasserstoff",
+        "z": 1,
+        "shells": [
+          1
+        ],
+        "explain": "Wasserstoff besitzt 1 Elektronen mit der Verteilung 1."
+      },
+      {
+        "draw": true,
+        "element": "Helium",
+        "z": 2,
+        "shells": [
+          2
+        ],
+        "explain": "Helium besitzt 2 Elektronen mit der Verteilung 2."
+      }
+    ],
+    [
+      {
+        "draw": true,
+        "element": "Beryllium",
+        "z": 4,
+        "shells": [
+          2,
+          2
+        ],
+        "explain": "Beryllium besitzt 4 Elektronen mit der Verteilung 2 | 2."
+      },
+      {
+        "draw": true,
+        "element": "Bor",
+        "z": 5,
+        "shells": [
+          2,
+          3
+        ],
+        "explain": "Bor besitzt 5 Elektronen mit der Verteilung 2 | 3."
+      }
+    ],
+    [
+      {
+        "draw": true,
+        "element": "Stickstoff",
+        "z": 7,
+        "shells": [
+          2,
+          5
+        ],
+        "explain": "Stickstoff besitzt 7 Elektronen mit der Verteilung 2 | 5."
+      },
+      {
+        "draw": true,
+        "element": "Fluor",
+        "z": 9,
+        "shells": [
+          2,
+          7
+        ],
+        "explain": "Fluor besitzt 9 Elektronen mit der Verteilung 2 | 7."
+      }
+    ],
+    [
+      {
+        "draw": true,
+        "element": "Aluminium",
+        "z": 13,
+        "shells": [
+          2,
+          8,
+          3
+        ],
+        "explain": "Aluminium besitzt 13 Elektronen mit der Verteilung 2 | 8 | 3."
+      },
+      {
+        "draw": true,
+        "element": "Silicium",
+        "z": 14,
+        "shells": [
+          2,
+          8,
+          4
+        ],
+        "explain": "Silicium besitzt 14 Elektronen mit der Verteilung 2 | 8 | 4."
+      }
+    ]
+  ],
+  [
+    [
+      [
+        "Wie nennt man eine waagerechte Zeile im Periodensystem?",
+        [
+          "Periode",
+          "Hauptgruppe",
+          "Isotop"
+        ],
+        0,
+        "Die waagerechten Zeilen heißen Perioden; Gruppen verlaufen senkrecht."
+      ],
+      [
+        "Was gibt die Ordnungszahl eines Elements an?",
+        [
+          "Die Zahl aller Kernteilchen",
+          "Die Protonenzahl",
+          "Die Neutronenzahl"
+        ],
+        1,
+        "Die Zahl der Protonen legt fest, um welches Element es sich handelt."
+      ]
+    ],
+    [
+      [
+        "Wie viele besetzte Schalen hat ein Atom der 2. Periode im Grundzustand?",
+        [
+          "7",
+          "8",
+          "2"
+        ],
+        2,
+        "Die Periodennummer entspricht im Schalenmodell der Anzahl besetzter Schalen."
+      ],
+      [
+        "Wie viele Außenelektronen besitzen die Atome der 1. Hauptgruppe?",
+        [
+          "1",
+          "2",
+          "8"
+        ],
+        0,
+        "Hauptgruppenelemente der 1. Hauptgruppe besitzen ein Außenelektron."
+      ]
+    ],
+    [
+      [
+        "Welche Elemente gehören zur gleichen Hauptgruppe?",
+        [
+          "Kohlenstoff und Sauerstoff",
+          "Lithium und Natrium",
+          "Natrium und Magnesium"
+        ],
+        1,
+        "Lithium und Natrium besitzen jeweils ein Außenelektron und stehen in der 1. Hauptgruppe."
+      ],
+      [
+        "Warum steht Helium trotz nur zweier Elektronen bei den Edelgasen?",
+        [
+          "Es besitzt acht Protonen",
+          "Es hat keine Elektronen",
+          "Seine einzige Schale ist vollständig besetzt"
+        ],
+        2,
+        "Die K-Schale ist schon mit zwei Elektronen voll. Helium hat damit wie die anderen Edelgase eine voll besetzte Außenschale."
+      ]
+    ],
+    [
+      [
+        "Ein Atom besitzt die Verteilung 2 | 8 | 5. Wo steht es?",
+        [
+          "3. Periode, 5. Hauptgruppe",
+          "5. Periode, 3. Hauptgruppe",
+          "3. Periode, 2. Hauptgruppe"
+        ],
+        0,
+        "Drei besetzte Schalen und fünf Außenelektronen bedeuten 3. Periode und 5. Hauptgruppe: Phosphor."
+      ],
+      [
+        "Ein neutrales Atom steht in der 2. Periode und 6. Hauptgruppe. Wie viele Elektronen hat es?",
+        [
+          "12",
+          "8",
+          "6"
+        ],
+        1,
+        "Zwei Elektronen auf der K-Schale und sechs auf der L-Schale ergeben acht: Sauerstoff."
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        "Mein Elementsymbol ist O. Wer bin ich?",
+        [
+          "Gold",
+          "Osmium",
+          "Sauerstoff"
+        ],
+        2,
+        "Sauerstoff hat das Symbol O; Gold hat Au und Osmium Os."
+      ],
+      [
+        "Ich habe nur ein Proton. Wer bin ich?",
+        [
+          "Wasserstoff",
+          "Helium",
+          "Lithium"
+        ],
+        0,
+        "Wasserstoff hat die Ordnungszahl 1 und damit ein Proton."
+      ]
+    ],
+    [
+      [
+        "Ich stehe in der 3. Periode und 1. Hauptgruppe. Wer bin ich?",
+        [
+          "Magnesium",
+          "Natrium",
+          "Lithium"
+        ],
+        1,
+        "Natrium hat drei besetzte Schalen und ein Außenelektron: 2 | 8 | 1."
+      ],
+      [
+        "Mein neutrales Atom hat die Verteilung 2 | 4. Wer bin ich?",
+        [
+          "Stickstoff",
+          "Beryllium",
+          "Kohlenstoff"
+        ],
+        2,
+        "Sechs Elektronen bedeuten beim neutralen Atom sechs Protonen: Kohlenstoff."
+      ]
+    ],
+    [
+      [
+        "Ich bin ein Edelgas mit zwei besetzten Schalen. Wer bin ich?",
+        [
+          "Neon",
+          "Helium",
+          "Argon"
+        ],
+        0,
+        "Neon hat die Verteilung 2 | 8. Helium hat eine, Argon drei besetzte Schalen."
+      ],
+      [
+        "Ich habe zwei besetzte Schalen und sieben Außenelektronen. Wer bin ich?",
+        [
+          "Sauerstoff",
+          "Fluor",
+          "Chlor"
+        ],
+        1,
+        "Die Verteilung 2 | 7 ergibt neun Elektronen: Fluor mit Ordnungszahl 9."
+      ]
+    ],
+    [
+      [
+        "Ich habe die Elektronenverteilung 2 | 8 | 1 und zwölf Neutronen. Welches neutrale Atom bin ich?",
+        [
+          "Magnesium-24",
+          "Neon-22",
+          "Natrium-23"
+        ],
+        2,
+        "Elf Elektronen bedeuten elf Protonen. Mit zwölf Neutronen ergibt sich die Massenzahl 23."
+      ],
+      [
+        "Mein neutrales Atom hat acht Protonen und die Massenzahl 18. Was trifft zu?",
+        [
+          "Sauerstoff mit zehn Neutronen",
+          "Argon mit achtzehn Neutronen",
+          "Sauerstoff mit acht Neutronen"
+        ],
+        0,
+        "Acht Protonen bestimmen das Element Sauerstoff. Die Neutronenzahl ist 18 − 8 = 10."
+      ]
+    ]
+  ]
+];
+const questionPools = topics.map((topic, i) => topic.questions.map((q, j) => [q, ...extraQuestions[i][j]]));
+const historyKey = 'atomatelier-fragenverlauf-v1';
+let questionHistory = {};
+try { questionHistory = JSON.parse(localStorage.getItem(historyKey)) || {}; } catch {}
+if (typeof questionHistory !== 'object' || Array.isArray(questionHistory)) questionHistory = {};
+function createQuestionSelection() {
+  const selection = {};
+  questionPools.forEach((pools, i) => pools.forEach((pool, j) => {
+    const key = i + '-' + j;
+    let seen = Array.isArray(questionHistory[key]) ? questionHistory[key].filter(n => Number.isInteger(n) && n >= 0 && n < pool.length) : [];
+    let available = pool.map((_, n) => n).filter(n => !seen.includes(n));
+    if (!available.length) {
+      // Auch beim Beginn eines neuen Durchlaufs keine direkte Wiederholung.
+      available = pool.map((_, n) => n).filter(n => n !== seen[seen.length - 1]);
+      seen = [];
+    }
+    const chosen = available[Math.floor(Math.random() * available.length)];
+    selection[key] = chosen;
+    questionHistory[key] = [...seen, chosen];
+  }));
+  try { localStorage.setItem(historyKey, JSON.stringify(questionHistory)); } catch {}
+  return selection;
+}
+function ensureQuestionSelection() {
+  if (!game) return;
+  if (!game.selection || typeof game.selection !== 'object' || Array.isArray(game.selection)) game.selection = {};
+  questionPools.forEach((pools, i) => pools.forEach((pool, j) => {
+    const key = i + '-' + j;
+    // Alte Spielstände behalten ihre bisherigen Originalfragen.
+    if (!Number.isInteger(game.selection[key]) || !pool[game.selection[key]]) game.selection[key] = 0;
+  }));
+}
 const $=id=>document.getElementById(id);
 const storageKey='atomatelier-duell-v1';
 let game=null,queue=[],position=0,score=0,answered=false,counts=[];
 const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 try{const g=JSON.parse(localStorage.getItem(storageKey));if(g&&Array.isArray(g.names)&&g.names.length===2&&g.names.every(n=>typeof n==='string')&&Array.isArray(g.scores)&&g.scores.length===2&&g.scores.every(n=>Number.isFinite(n)&&n>=0)&&[0,1].includes(g.turn)&&g.used&&typeof g.used==='object'&&!Array.isArray(g.used)&&Object.keys(g.used).every(k=>/^[0-5]-[0-3]$/.test(k))){game=g;}}catch{}
+ensureQuestionSelection();
 function persist(){try{localStorage.setItem(storageKey,JSON.stringify(game))}catch{}}
 function updateScores(){ $('scoreboard').classList.toggle('hidden',!game);if(!game)return;$('scoreboard').innerHTML=game.names.map((name,i)=>`<div class="team-score team-${i} ${game.turn===i&&Object.keys(game.used).length<24?'active':''}"><div><strong>${escapeHtml(name)}</strong><small>${Object.keys(game.used).length===24?'Endstand':game.turn===i?'● Ihr seid am Zug':'Als Nächstes dran'}</small></div><b>${game.scores[i]} <span class="small">Punkte</span></b></div>`).join('')}
-function setup(){$('panel').classList.remove('final-stage'); $('home').classList.remove('hidden');$('play').classList.add('hidden');$('scoreboard').classList.add('hidden');$('home').innerHTML=`<section class="setup"><div class="eyebrow">Zwei Teams. Eine Fragenwand.</div><h1>Das Chemie-Duell.</h1><p>Wählt abwechselnd ein Feld aus sechs Kategorien. Für jede richtige Antwort gibt es <strong>100, 200, 300 oder 400 Punkte</strong>. Wer sammelt die meisten?</p><form id="setupForm"><div class="name-fields"><label>Team / Person 1<input id="name0" maxlength="24" value="Team Grün" required></label><label>Team / Person 2<input id="name1" maxlength="24" value="Team Lila" required></label></div><button class="primary" type="submit">Duell starten ↗</button></form><p class="rules">Team 1 beginnt. Richtig: Feldpunkte. Falsch oder übersprungen: 0 Punkte. Danach wechselt der Zug. Jedes Feld wird einmal gespielt; nach 24 Fragen steht das Ergebnis fest.</p><p class="small">Gemeinsam an einem Gerät oder am Beamer · <a href="einzelquiz.html">Zum Einzelquiz</a></p></section>`;$('setupForm').onsubmit=e=>{e.preventDefault();game={names:[$('name0').value.trim()||'Team Grün',$('name1').value.trim()||'Team Lila'],scores:[0,0],turn:0,used:{},pending:null};persist();home()}}
+function setup(){$('panel').classList.remove('final-stage'); $('home').classList.remove('hidden');$('play').classList.add('hidden');$('scoreboard').classList.add('hidden');$('home').innerHTML=`<section class="setup"><div class="eyebrow">Zwei Teams. Eine Fragenwand.</div><h1>Das Chemie-Duell.</h1><p>Wählt abwechselnd ein Feld aus sechs Kategorien. Für jede richtige Antwort gibt es <strong>100, 200, 300 oder 400 Punkte</strong>. Wer sammelt die meisten?</p><form id="setupForm"><div class="name-fields"><label>Team / Person 1<input id="name0" maxlength="24" value="Team Grün" required></label><label>Team / Person 2<input id="name1" maxlength="24" value="Team Lila" required></label></div><button class="primary" type="submit">Duell starten ↗</button></form><p class="rules">Team 1 beginnt. Richtig: Feldpunkte. Falsch oder übersprungen: 0 Punkte. Danach wechselt der Zug. Jedes Feld wird einmal gespielt; nach 24 Fragen steht das Ergebnis fest. Pro Feld wird eine von drei Fragen zufällig gezogen. Neue Duelle bringen neue Varianten.</p><p class="small">Gemeinsam an einem Gerät oder am Beamer · <a href="einzelquiz.html">Zum Einzelquiz</a></p></section>`;$('setupForm').onsubmit=e=>{e.preventDefault();game={names:[$('name0').value.trim()||'Team Grün',$('name1').value.trim()||'Team Lila'],scores:[0,0],turn:0,used:{},pending:null,selection:createQuestionSelection()};persist();home()}}
 function home(){$('panel').classList.remove('final-stage');if(!game){setup();return}if(game.pending){openQuestion(...game.pending.split('-').map(Number));return}updateScores();$('home').classList.remove('hidden');$('play').classList.add('hidden');const done=Object.keys(game.used).length;$('home').innerHTML=`<div class="duel-heading"><div><div class="eyebrow">Die Bühne gehört euch.</div><h1>Die Quiz-Arena</h1><p>Sechs Kategorien. 24 Chancen, zu glänzen.</p></div><button class="secondary" id="newGame">Neues Duell</button></div><div class="wall-status"><strong>${done===24?'Alle Felder gespielt!':escapeHtml(game.names[game.turn])+' wählt ein Feld.'}</strong><span class="small">${done} / 24 gespielt</span></div><div class="wall-scroll"><div class="wall">${topics.map((t,i)=>`<section class="wall-column"><div class="category" style="--tint:${t.tint}"><span aria-hidden="true">${t.icon}</span><h2>${t.title}</h2></div>${t.questions.map((q,j)=>{const used=game.used[i+'-'+j];return `<button class="tile ${used?(used.correct?'played-correct':'played-wrong'):''}" data-topic="${i}" data-question="${j}" ${used?'disabled':''} aria-label="${t.title}, ${(j+1)*100} Punkte${used?', bereits gespielt':''}">${used?(used.correct?'✓':'—'):(j+1)*100}<small>${used?'gespielt': 'Punkte'}</small></button>`}).join('')}</section>`).join('')}</div></div><p class="rules">Richtige Antwort = Feldpunkte · Falsche Antwort = 0 Punkte · Nach jeder Frage wechselt das Team. Höhere Punktwerte stehen für anspruchsvollere Aufgaben.</p>${done===24?'<button class="primary" id="showResult">Endergebnis ansehen →</button>':''}<p class="small">Spielstand wird auf diesem Gerät gespeichert · <a href="einzelquiz.html">Zum Einzelquiz</a></p>`;$('home').querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>openQuestion(Number(b.dataset.topic),Number(b.dataset.question)));$('newGame').onclick=()=>{if(confirm('Aktuelles Duell beenden und ein neues starten?')){game=null;persist();setup()}};if(done===24)$('showResult').onclick=result;}
-function openQuestion(topic,j){if(!topics[topic]?.questions[j]||game.used[topic+'-'+j])return;game.pending=topic+'-'+j;persist();queue=[{q:topics[topic].questions[j],topic,j}];position=0;answered=false;updateScores();$('home').classList.add('hidden');$('play').classList.remove('hidden');render();$('back').textContent='Frage überspringen';$('back').disabled=false;$('back').onclick=()=>{if(!answered&&confirm('Frage ohne Punkte auflösen? Danach ist das andere Team dran.')){const q=queue[0].q;$('panel').querySelectorAll('[data-answer]').forEach(b=>{b.disabled=true;if(Number(b.dataset.answer)===q[2])b.classList.add('correct')});finish(false,q.draw?q.explain:q[3],true)}};window.scrollTo(0,0)}
+function openQuestion(topic,j){if(!topics[topic]?.questions[j]||game.used[topic+'-'+j])return;game.pending=topic+'-'+j;persist();queue=[{q:questionPools[topic][j][game.selection[topic+'-'+j]],topic,j}];position=0;answered=false;updateScores();$('home').classList.add('hidden');$('play').classList.remove('hidden');render();$('back').textContent='Frage überspringen';$('back').disabled=false;$('back').onclick=()=>{if(!answered&&confirm('Frage ohne Punkte auflösen? Danach ist das andere Team dran.')){const q=queue[0].q;$('panel').querySelectorAll('[data-answer]').forEach(b=>{b.disabled=true;if(Number(b.dataset.answer)===q[2])b.classList.add('correct')});finish(false,q.draw?q.explain:q[3],true)}};window.scrollTo(0,0)}
 function render(){$('panel').classList.remove('show-correct','show-wrong','final-stage');answered=false;const {q,topic}=queue[position];$('quizInfo').textContent=`${game.names[game.turn]} · ${(queue[0].j+1)*100} Punkte`;$('barFill').style.width=`${Object.keys(game.used).length/24*100}%`;$('panel').innerHTML=`<div class="eyebrow">${topics[topic].title}</div><h2 tabindex="-1">${q.draw?`Zeichne ein neutrales ${q.element}atom.`:q[0]}</h2>${q.draw?`<p class="small">Ordnungszahl ${q.z} · Verteile die ${q.z} Elektronen mit + und − auf die Schalen.</p><div class="shell-drawing"><div id="atom"></div><div id="controls"></div></div><p class="small" id="electronCount"></p><button class="primary" id="check">Modell überprüfen</button>`:`<div class="answers">${q[1].map((a,i)=>`<button class="answer" data-answer="${i}"><span class="letter">${String.fromCharCode(65+i)}</span>${a}</button>`).join('')}</div>`}<div id="feedback" aria-live="polite"></div><div class="quiz-bottom"><span class="small">${q.draw?'Vereinfachtes Schalenmodell':'Eine Antwort ist richtig.'}</span><button id="next" class="primary hidden">Zur Fragenwand →</button></div>`;if(q.draw){counts=q.shells.map(()=>0);drawAtom();$('check').onclick=()=>finish(counts.every((n,i)=>n===q.shells[i]),q.explain)}else{$('panel').querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{const selected=Number(b.dataset.answer);$('panel').querySelectorAll('[data-answer]').forEach(btn=>{btn.disabled=true;if(Number(btn.dataset.answer)===q[2])btn.classList.add('correct');else if(btn===b)btn.classList.add('wrong')});finish(selected===q[2],q[3])})}$('next').onclick=()=>{Object.keys(game.used).length===24?result():home()};$('panel').querySelector('h2').focus()}
 function drawAtom(){const q=queue[position].q;let svg=`<svg viewBox="0 0 280 280" role="img" aria-label="Schalenmodell mit ${counts.join(', ')} Elektronen auf den Schalen"><circle cx="140" cy="140" r="23" fill="#214f43"/><text x="140" y="145" text-anchor="middle" fill="white" font-size="13">${q.z} p⁺</text>`;counts.forEach((n,s)=>{const r=45+s*37;svg+=`<circle cx="140" cy="140" r="${r}" fill="none" stroke="#bccbb1" stroke-width="1.5"/>`;for(let i=0;i<n;i++){const a=2*Math.PI*i/n-Math.PI/2;svg+=`<circle cx="${140+r*Math.cos(a)}" cy="${140+r*Math.sin(a)}" r="6" fill="#547542"/>`}});$('atom').innerHTML=svg+'</svg>';$('controls').innerHTML=counts.map((n,i)=>`<div class="shell-control"><span>${['K','L','M'][i]}-Schale</span><button class="step" data-shell="${i}" data-delta="-1" aria-label="Elektron von ${['K','L','M'][i]}-Schale entfernen" ${n===0||answered?'disabled':''}>−</button><b>${n}</b><button class="step" data-shell="${i}" data-delta="1" aria-label="Elektron auf ${['K','L','M'][i]}-Schale hinzufügen" ${answered?'disabled':''}>+</button></div>`).join('');$('electronCount').textContent=`${counts.reduce((a,b)=>a+b,0)} von ${q.z} Elektronen eingezeichnet`;$('controls').querySelectorAll('button').forEach(b=>b.onclick=()=>{counts[Number(b.dataset.shell)]+=Number(b.dataset.delta);drawAtom()})}
 function finish(correct,explain,skipped=false){if(answered)return;answered=true;const {topic,j,q}=queue[0],points=(j+1)*100,team=game.turn;game.used[topic+'-'+j]={correct,team};if(correct)game.scores[team]+=points;game.pending=null;game.turn=1-team;persist();if(q.draw){$('check').disabled=true;drawAtom()}$('feedback').innerHTML=`<div class="feedback ${correct?'':'bad'}"><div class="verdict"><span class="verdict-symbol" aria-hidden="true">${correct?'✓':'✕'}</span><div><strong>${correct?'RICHTIG!':skipped?'AUFGELÖST':'FALSCH!'}</strong><small>${correct?`+${points} Punkte für ${escapeHtml(game.names[team])}`:'0 Punkte · Die nächste Chance kommt!'}</small></div></div>${explain}</div>`;$('next').classList.remove('hidden');$('next').textContent=Object.keys(game.used).length===24?'Endergebnis ansehen →':'Zur Fragenwand →';$('back').disabled=true;updateScores();$('panel').classList.add(correct?'show-correct':'show-wrong');if(correct){const counter=$('scoreboard').querySelectorAll('.team-score b')[team];if(counter)counter.classList.add('points-pop');}}
