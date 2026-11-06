@@ -11,13 +11,14 @@
 </style>
 <link rel="stylesheet" href="quizshow.css">
 </head>
-<body>
+<body><div id="passwordGate" class="password-gate" role="dialog" aria-modal="true"><div class="password-card"><div class="lock">🔒</div><h1>Quiz geschützt</h1><p>Bitte gib das Passwort ein, um die Chemie-Quizshow zu öffnen.</p><form class="password-form" id="passwordForm"><input id="passwordInput" type="password" autocomplete="current-password" placeholder="Passwort" required><button class="primary" type="submit">Öffnen</button></form><p class="password-error" id="passwordError" aria-live="polite"></p></div></div>
 <header><div class="brand"><span>⚛</span>Atomatelier</div><div class="tag">Die Chemie-Quizshow · Klasse 9</div></header>
 <section class="scoreboard hidden" id="scoreboard" aria-label="Punktestände" aria-live="polite"></section>
 <main id="home"></main>
 <main id="play" class="hidden"><div class="quiz"><div class="quiz-top"><button class="secondary" id="back">← Übersicht</button><span class="small" id="quizInfo"></span></div><div class="bar"><div id="barFill"></div></div><div class="question-panel" id="panel"></div></div></main>
 <footer><span>Atomatelier · Wissen wächst mit Neugier.</span><span>Atommodelle & Periodensystem</span></footer>
 <script>
+const QUIZ_PASSWORD='PSEverstehen';function unlockQuiz(){const gate=document.getElementById('passwordGate');if(sessionStorage.getItem('atomatelier-unlocked')==='true'){gate.classList.add('hidden');return}document.getElementById('passwordForm').onsubmit=e=>{e.preventDefault();const input=document.getElementById('passwordInput');if(input.value===QUIZ_PASSWORD){sessionStorage.setItem('atomatelier-unlocked','true');gate.classList.add('hidden')}else{document.getElementById('passwordError').textContent='Falsches Passwort. Bitte versuche es noch einmal.';input.select()}}}unlockQuiz();
 const topics=[
 {title:'Atommodelle im Wandel der Zeit',desc:'Wie aus einer Idee ein Modell wurde.',icon:'◷',tint:'#ece7f8',questions:[
 ['Was beschreibt ein wissenschaftliches Atommodell?',['Ein vereinfachtes Bild, das Beobachtungen erklärt','Ein maßstabsgetreues Foto eines Atoms','Eine endgültige Wahrheit, die nie verändert wird'],0,'Modelle vereinfachen die Wirklichkeit. Neue Beobachtungen können dazu führen, dass sie erweitert oder ersetzt werden.'],
